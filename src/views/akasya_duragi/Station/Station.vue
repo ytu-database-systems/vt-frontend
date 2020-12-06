@@ -45,15 +45,31 @@
         <form class="form-inline">
           <div class="container">
             <div class="row form-group mb-3">
-              <div class="col-md-3">
-                <label for="validationServer01" class="float-right">Station Name</label>
+              <div class="col-md-4">
+                <label for="station-name" class="float-right">Station Name</label>
               </div>
               <div class="col-md-6">
-                <input ref="name" type="text" class="form-control w-100 ml-lg-5" id="validationServer01" placeholder="i.e. Admin" required :value="darkModal.data.name">
+                <input ref="name" type="text" class="form-control w-100 ml-lg-5" id="station-name" placeholder="Kadıköy Şube" required :value="darkModal.data.name">
               </div>
             </div>
             <div class="row form-group mb-3">
-              <div class="col-md-3">
+              <div class="col-md-4">
+                <label for="station-phone" class="float-right">Station Phone</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="phone" type="text" class="form-control w-100 ml-lg-5" id="station-phone" placeholder="212 555 55 55" required :value="darkModal.data.name">
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="station-address" class="float-right">Station Address</label>
+              </div>
+              <div class="col-md-6">
+                <textarea ref="address" type="text" class="form-control w-100 ml-lg-5" id="station-address" placeholder="Ararsan Bulamazsın Caddesi, 0 numara" required :value="darkModal.data.name"></textarea>
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
                 <label for="validationServer02" class="float-right">Status</label>
               </div>
               <div class="col-md-6">
