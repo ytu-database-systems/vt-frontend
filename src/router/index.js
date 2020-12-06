@@ -16,6 +16,10 @@ const Widgets = () => import('@/views/widgets/Widgets')
 
 // Views - Components
 const Cards = () => import('@/views/base/Cards')
+const Stations = () => import('@/views/akasya_duragi/Station/Stations')
+const Workers = () => import('@/views/akasya_duragi/Worker/Workers')
+const Taxis = () => import('@/views/akasya_duragi/Taxi/Taxis')
+const Voyages = () => import('@/views/akasya_duragi/Voyage/Voyages')
 const Forms = () => import('@/views/base/Forms')
 const Switches = () => import('@/views/base/Switches')
 const Tables = () => import('@/views/base/Tables')
@@ -133,6 +137,36 @@ function configRoutes () {
               },
               name: 'User',
               component: User
+            }
+          ]
+        },
+        {
+          path: 'akasya_duragi',
+          redirect: '/akasya_duragi',
+          name: 'Akasya Durağı',
+          component: {
+              render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: 'stations',
+              name: 'Stations',
+              component: Stations
+            },
+              {
+              path: 'workers',
+              name: 'Workers',
+              component: Workers
+            },
+              {
+              path: 'taxis',
+              name: 'Taxis',
+              component: Taxis
+            },
+              {
+              path: 'voyage',
+              name: 'Voyages',
+              component: Voyages
             }
           ]
         },

@@ -25,12 +25,36 @@ export default [
       {
         _name: 'CSidebarNavItem',
         name: 'Users',
-        to: '/theme/typography',
+        to: '/management/users',
         icon: 'cil-pencil'
       },
       {
         _name: 'CSidebarNavTitle',
-        _children: ['Components']
+        _children: ['Akasya Durağı']
+      },
+      {
+        _name: 'CSidebarNavDropdown',
+        name: 'Akasya Durağı',
+        route: '/akasya_duragi',
+        icon: 'cil-puzzle',
+        items: [
+          {
+            name: 'Stations',
+            to: '/akasya_duragi/stations'
+          },
+          {
+            name: 'Workers',
+            to: '/akasya_duragi/workers'
+          },
+          {
+            name: 'Taxis',
+            to: '/akasya_duragi/taxis'
+          },
+          {
+            name: 'Voyages',
+            to: '/akasya_duragi/voyages'
+          }
+        ]
       },
       {
         _name: 'CSidebarNavDropdown',
