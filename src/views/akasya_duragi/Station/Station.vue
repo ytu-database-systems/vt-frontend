@@ -113,7 +113,7 @@ export default {
     fields: {
       type: Array,
       default () {
-        return ['id', 'name', 'phone', 'address', 'ManagerId', 'createdAt', 'updatedAt', 'status']
+        return ['id', 'name', 'phone', 'address', 'managerId', 'createdAt', 'updatedAt', 'status']
       }
     },
     caption: {
@@ -179,6 +179,11 @@ export default {
         delete reqData['_classes'];
         delete reqData['createdAt'];
         delete reqData['updatedAt'];
+        for (let key of Object.keys(reqData)){
+          if (!reqData[key])
+            delete reqData[key];
+        }
+
       } else {
         reqData = {
           name : this.$refs.name.value,
