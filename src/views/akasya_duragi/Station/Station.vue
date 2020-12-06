@@ -57,7 +57,7 @@
                 <label for="station-phone" class="float-right">Station Phone</label>
               </div>
               <div class="col-md-6">
-                <input ref="phone" type="text" class="form-control w-100 ml-lg-5" id="station-phone" placeholder="212 555 55 55" required :value="darkModal.data.name">
+                <input ref="phone" type="text" class="form-control w-100 ml-lg-5" id="station-phone" placeholder="212 555 55 55" required :value="darkModal.data.phone">
               </div>
             </div>
             <div class="row form-group mb-3">
@@ -65,7 +65,7 @@
                 <label for="station-address" class="float-right">Station Address</label>
               </div>
               <div class="col-md-6">
-                <textarea ref="address" type="text" class="form-control w-100 ml-lg-5" id="station-address" placeholder="Ararsan Bulamazsın Caddesi, 0 numara" required :value="darkModal.data.name"></textarea>
+                <textarea ref="address" type="text" class="form-control w-100 ml-lg-5" id="station-address" placeholder="Ararsan Bulamazsın Caddesi, 0 numara" required :value="darkModal.data.address"></textarea>
               </div>
             </div>
             <div class="row form-group mb-3">
@@ -113,7 +113,7 @@ export default {
     fields: {
       type: Array,
       default () {
-        return ['id', 'name', 'phone', 'address', 'Manager', 'createdAt', 'updatedAt', 'status']
+        return ['id', 'name', 'phone', 'address', 'ManagerId', 'createdAt', 'updatedAt', 'status']
       }
     },
     caption: {
@@ -172,6 +172,8 @@ export default {
       if (this.darkModal.operation === "edit") {
         data = this.darkModal.data;
         data.name = this.$refs.name.value;
+        data.phone = this.$refs.phone.value;
+        data.address = this.$refs.address.value;
         data.status = this.$refs.status.value;
         reqData = { ...data };
         delete reqData['_classes'];
@@ -180,6 +182,8 @@ export default {
       } else {
         reqData = {
           name : this.$refs.name.value,
+          phone : this.$refs.phone.value,
+          address : this.$refs.address.value,
           status : this.$refs.status.value
         }
       }

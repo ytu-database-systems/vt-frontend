@@ -31,25 +31,25 @@ export default {
     }
   },
 
- /* beforeRouteEnter: function (to, from, next) {
+  beforeRouteEnter: function (to, from, next) {
     function getStations() {
       return axios.get(`${process.env.VUE_APP_API_URL}/station`, {responseType: 'json'});
     }
 
     axios.all([getStations()])
-            .then(axios.spread((stations) => {
-              next(vm => {
-                vm.setStations(stations);
-              })
-            }));
-  },*/
+      .then(axios.spread((stations) => {
+        next(vm => {
+          vm.setStations(stations);
+        })
+      }));
+  },
 
   methods: {
     setStations (response) {
-      for (let row of response.data.stations.rows) {
+      for (let row of response.data.result.rows) {
         row["_classes"] = row.status === 1 ? '' :  'table-danger'
       }
-      this.stations = response.data.stations.rows;
+      this.stations = response.data.result.rows;
     },
     setStationsToComponent () {
       return this.stations

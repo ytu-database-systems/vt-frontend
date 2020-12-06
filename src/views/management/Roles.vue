@@ -36,7 +36,7 @@ export default {
 
   beforeRouteEnter: function (to, from, next) {
     function getRoles() {
-      return axios.get('http://localhost:3000/v1/role', {responseType: 'json'});
+      return axios.get(`${process.env.VUE_APP_API_URL}/role`, {responseType: 'json'});
     }
 
     axios.all([getRoles()])
@@ -50,16 +50,16 @@ export default {
 
   methods: {
     setRoles (response) {
-      for (let row of response.data.roles.rows) {
+      for (let row of response.data.result.rows) {
         row["_classes"] = row.status === 1 ? '' :  'table-danger'
       }
-      this.roles = response.data.roles.rows;
+      this.roles = response.data.result.rows;
     },
     setRolesToComponent () {
       return this.roles
     },
     getRolesFromApi () {
-      return axios.get('http://localhost:3000/v1/role', {responseType: 'json'});
+      return axios.get(`${process.env.VUE_APP_API_URL}/role`, {responseType: 'json'});
     },
     refresh() {
       axios.all([this.getRolesFromApi()])
