@@ -96,7 +96,7 @@
 
 
 <script>
-import axios from 'axios'
+import axios from '../../../api-client'
 export default {
   name: 'Station',
   data: () => {

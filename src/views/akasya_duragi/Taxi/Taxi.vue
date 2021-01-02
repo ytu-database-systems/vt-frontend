@@ -45,19 +45,80 @@
         <form class="form-inline">
           <div class="container">
             <div class="row form-group mb-3">
-              <div class="col-md-3">
-                <label for="validationServer01" class="float-right">Taxi Plate</label>
+              <div class="col-md-4">
+                <label for="plate" class="float-right">Plate</label>
               </div>
               <div class="col-md-6">
-                <input ref="name" type="text" class="form-control w-100 ml-lg-5" id="validationServer01" placeholder="i.e. Admin" required :value="darkModal.data.name">
+                <input ref="plate" type="text" class="form-control w-100 ml-lg-5" id="plate" placeholder="i.e. 34 ASD 23" required :value="darkModal.data.plate">
               </div>
             </div>
             <div class="row form-group mb-3">
-              <div class="col-md-3">
-                <label for="validationServer02" class="float-right">Status</label>
+              <div class="col-md-4">
+                <label for="brand" class="float-right">Brand</label>
               </div>
               <div class="col-md-6">
-                <select ref="status" class="form-control custom-select w-100 ml-lg-5" id="validationServer02" required>
+                <input ref="brand" type="text" class="form-control w-100 ml-lg-5" id="brand" placeholder="i.e. Hyundai" required :value="darkModal.data.brand">
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="model" class="float-right">Model</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="model" type="text" class="form-control w-100 ml-lg-5" id="model" placeholder="i.e. Getz 1.6" required :value="darkModal.data.model">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="capacity" class="float-right">Capacity</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="capacity" type="number" min="5" max="12" class="form-control w-100 ml-lg-5" id="capacity" placeholder="i.e. 5" required :value="darkModal.data.capacity">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="stationId" class="float-right">Station</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="stationId" id="stationId" class="form-control custom-select w-100 ml-lg-5">
+                  <option disabled>Choose ...</option>
+                  <option v-bind:key="station.name"
+                          v-bind:value="station.id" v-for="station in stations"
+                          :selected="darkModal.data.stationId === station.id"
+                  >
+                    {{ station.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="createdAt" class="float-right">Creation Time</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="createdAt" disabled type="text" class="form-control w-100 ml-lg-5" id="createdAt" placeholder="i.e. Admin" required :value="darkModal.data.createdAt">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="updatedAt" class="float-right">Last Update Time</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="updatedAt" disabled type="text" class="form-control w-100 ml-lg-5" id="updatedAt" placeholder="i.e. Admin" required :value="darkModal.data.updatedAt">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="status" class="float-right">Status</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="status" class="form-control custom-select w-100 ml-lg-5" id="status" required>
                   <option disabled value="">Choose...</option>
                   <option :selected="darkModal.data.status === 1" value=1>Active</option>
                   <option :selected="darkModal.data.status === 0" value=0>Inactive</option>
@@ -80,7 +141,7 @@
 
 
 <script>
-import axios from 'axios'
+import axios from '../../../api-client'
 export default {
   name: 'Taxi',
   data: () => {
@@ -89,7 +150,8 @@ export default {
         data : {},
         operation : "",
         show: false
-      }
+      },
+      stations : []
     }
   },
   props: {
@@ -97,7 +159,7 @@ export default {
     fields: {
       type: Array,
       default () {
-        return ['id', 'plate', 'brand', 'model', 'capacity', 'station', 'state', 'createdAt', 'updatedAt', 'status']
+        return ['id', 'plate', 'brand', 'model', 'capacity', 'station', 'createdAt', 'updatedAt', 'status']
       }
     },
     caption: {
@@ -124,10 +186,20 @@ export default {
                       : status === 'Pending' ? 'warning'
                               : status === 0 ? 'Inactive' : 'primary'
     },
+    async getStationsFromApi () {
+      function getStations() {
+        return axios.get(`${process.env.VUE_APP_API_URL}/station`, {responseType: 'json'});
+      }
+      let response = await getStations();
+      return response.data.result.rows;
+    },
     showModal (operation, data) {
-      this.darkModal.operation = operation;
-      this.darkModal.data = data;
-      this.darkModal.show = true;
+      this.getStationsFromApi().then((stations) => {
+        this.stations = stations;
+        this.darkModal.operation = operation;
+        this.darkModal.data = data;
+        this.darkModal.show = true;
+      });
     },
     Submit (operation, data) {
       axios.all([this.SubmitForm(operation, data)])
@@ -155,17 +227,27 @@ export default {
       let reqData = null;
       if (this.darkModal.operation === "edit") {
         data = this.darkModal.data;
-        data.name = this.$refs.name.value;
+        data.plate = this.$refs.plate.value;
+        data.brand = this.$refs.brand.value;
+        data.model = this.$refs.model.value;
+        data.capacity = this.$refs.capacity.value;
+        data.stationId = this.$refs.stationId.value;
         data.status = this.$refs.status.value;
         reqData = { ...data };
         delete reqData['_classes'];
         delete reqData['createdAt'];
         delete reqData['updatedAt'];
+        delete reqData['station'];
       } else {
         reqData = {
-          name : this.$refs.name.value,
-          status : this.$refs.status.value
+          plate : this.$refs.plate.value,
+          brand : this.$refs.brand.value,
+          model : this.$refs.model.value,
+          capacity : this.$refs.capacity.value,
+          stationId : this.$refs.stationId.value,
+          status : this.$refs.status.value,
         }
+        delete reqData['station'];
       }
       return reqData;
     },

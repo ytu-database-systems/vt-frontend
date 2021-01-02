@@ -164,7 +164,7 @@ function configRoutes () {
               component: Taxis
             },
               {
-              path: 'voyage',
+              path: 'voyages',
               name: 'Voyages',
               component: Voyages
             }

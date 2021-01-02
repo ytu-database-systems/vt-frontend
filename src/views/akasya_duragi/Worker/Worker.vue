@@ -15,7 +15,7 @@
         :border="border"
         :small="small"
         :fixed="fixed"
-        :items="items"
+        :items="workers"
         :fields="fields"
         :items-per-page="small ? 10 : 5"
         :dark="dark"
@@ -45,19 +45,139 @@
         <form class="form-inline">
           <div class="container">
             <div class="row form-group mb-3">
-              <div class="col-md-3">
-                <label for="validationServer01" class="float-right">Worker Name</label>
+              <div class="col-md-4">
+                <label for="name" class="float-right">Worker Name</label>
               </div>
               <div class="col-md-6">
-                <input ref="name" type="text" class="form-control w-100 ml-lg-5" id="validationServer01" placeholder="i.e. Admin" required :value="darkModal.data.name">
+                <input ref="name" type="text" class="form-control w-100 ml-lg-5" id="name" placeholder="i.e. Usman Aga" required :value="darkModal.data.name">
               </div>
             </div>
             <div class="row form-group mb-3">
-              <div class="col-md-3">
-                <label for="validationServer02" class="float-right">Status</label>
+              <div class="col-md-4">
+                <label for="SSN" class="float-right">SSN</label>
               </div>
               <div class="col-md-6">
-                <select ref="status" class="form-control custom-select w-100 ml-lg-5" id="validationServer02" required>
+                <input ref="SSN" type="text" class="form-control w-100 ml-lg-5" id="SSN" placeholder="i.e. ###########" required :value="darkModal.data.SSN">
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="driverLicense" class="float-right">Driver License</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="driverLicense" type="text" class="form-control w-100 ml-lg-5" id="driverLicense" placeholder="i.e. A, B ..." required :value="darkModal.data.driverLicense">
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="gender" class="float-right">Gender</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="gender" class="form-control custom-select w-100 ml-lg-5" id="gender" required>
+                  <option disabled value="">Choose...</option>
+                  <option :selected="darkModal.data.gender === 'M'" value="M">Male</option>
+                  <option :selected="darkModal.data.gender === 'F'" value="F">Female</option>
+                  <option :selected="darkModal.data.gender === '?'" value="?">Secret</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="salary" class="float-right">Salary</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="salary" type="text" class="form-control w-100 ml-lg-5" id="salary" placeholder="i.e. 3500" required :value="darkModal.data.salary">
+              </div>
+            </div>
+
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="dateOfBirth" class="float-right">Birth Date</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="dateOfBirth" type="date" class="form-control w-100 ml-lg-5" id="dateOfBirth" required :value="darkModal.data.dateOfBirth">
+              </div>
+            </div>
+
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="phone" class="float-right">Phone</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="phone" type="tel" class="form-control w-100 ml-lg-5" id="phone" placeholder="i.e. ### ### ## ##" required :value="darkModal.data.phone">
+              </div>
+            </div>
+
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="address" class="float-right">Address</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="address" type="text" class="form-control w-100 ml-lg-5" id="address" placeholder="i.e. Admin" required :value="darkModal.data.address">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="managerId" class="float-right">Manager</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="managerId" id="managerId" class="form-control custom-select w-100 ml-lg-5">
+                  <option v-bind:key="worker.name"
+                          v-bind:value="worker.id" v-for="worker in workers"
+                          :selected="darkModal.data.managerId === worker.id"
+                  >
+                    {{ worker.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="stationId" class="float-right">Station</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="stationId" id="stationId" class="form-control custom-select w-100 ml-lg-5">
+                  <option disabled>Choose ...</option>
+                  <option v-bind:key="station.name"
+                          v-bind:value="station.id" v-for="station in stations"
+                          :selected="darkModal.data.stationId === station.id"
+                  >
+                    {{ station.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="createdAt" class="float-right">Creation Time</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="createdAt" disabled type="text" class="form-control w-100 ml-lg-5" id="createdAt" placeholder="i.e. Admin" required :value="darkModal.data.createdAt">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="updatedAt" class="float-right">Last Update Time</label>
+              </div>
+              <div class="col-md-6">
+                <input ref="updatedAt" disabled type="text" class="form-control w-100 ml-lg-5" id="updatedAt" placeholder="i.e. Admin" required :value="darkModal.data.updatedAt">
+              </div>
+            </div>
+
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
+                <label for="status" class="float-right">Status</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="status" class="form-control custom-select w-100 ml-lg-5" id="status" required>
                   <option disabled value="">Choose...</option>
                   <option :selected="darkModal.data.status === 1" value=1>Active</option>
                   <option :selected="darkModal.data.status === 0" value=0>Inactive</option>
@@ -80,24 +200,15 @@
 
 
 <script>
-import axios from 'axios'
+import axios from '../../../api-client'
 export default {
   name: 'Worker',
-  data: () => {
-    return {
-      darkModal: {
-        data : {},
-        operation : "",
-        show: false
-      }
-    }
-  },
   props: {
-    items: Array,
+    workers: Array,
     fields: {
       type: Array,
       default () {
-        return ['id', 'name', 'SSN', 'driverLicense', 'gender', 'salary', 'dateOfBirth', 'phone', 'state','address', 'createdAt', 'updatedAt', 'status']
+        return ['id', 'name', 'SSN', 'manager', 'station', 'driverLicense', 'gender', 'salary', 'dateOfBirth', 'phone', 'address', 'createdAt', 'updatedAt', 'status']
       }
     },
     caption: {
@@ -110,6 +221,16 @@ export default {
     small: Boolean,
     fixed: Boolean,
     dark: Boolean
+  },
+  data: () => {
+    return {
+      darkModal: {
+        data : {},
+        operation : "",
+        show: false
+      },
+      stations : []
+    }
   },
   methods: {
     getBadge (status) {
@@ -124,10 +245,20 @@ export default {
                       : status === 'Pending' ? 'warning'
                               : status === 0 ? 'Inactive' : 'primary'
     },
+    async getStationsFromApi () {
+      function getStations() {
+        return axios.get(`${process.env.VUE_APP_API_URL}/station`, {responseType: 'json'});
+      }
+      let response = await getStations();
+      return response.data.result.rows;
+    },
     showModal (operation, data) {
-      this.darkModal.operation = operation;
-      this.darkModal.data = data;
-      this.darkModal.show = true;
+      this.getStationsFromApi().then((stations) => {
+        this.stations = stations;
+        this.darkModal.operation = operation;
+        this.darkModal.data = data;
+        this.darkModal.show = true;
+      });
     },
     Submit (operation, data) {
       axios.all([this.SubmitForm(operation, data)])
@@ -153,21 +284,48 @@ export default {
     PrepareFormValues() {
       let data = null;
       let reqData = null;
-      if (this.darkModal.operation === "edit") {
+      if (this.darkModal.operation === "edit") { // update
         data = this.darkModal.data;
         data.name = this.$refs.name.value;
+        data.SSN = this.$refs.SSN.value;
+        data.driverLicense = this.$refs.driverLicense.value;
+        data.gender = this.$refs.gender.value;
+        data.salary = this.$refs.salary.value;
+        data.dateOfBirth = this.$refs.dateOfBirth.value;
+        data.phone = this.$refs.phone.value;
+        data.address = this.$refs.address.value;
+
+        data.stationId = this.$refs.stationId.value;
+        data.managerId = this.$refs.managerId.value;
         data.status = this.$refs.status.value;
         reqData = { ...data };
         delete reqData['_classes'];
         delete reqData['createdAt'];
+        delete reqData['manager'];
+        delete reqData['station'];
         delete reqData['updatedAt'];
-      } else {
+      } else { // insert
+        let datePieces = this.$refs.dateOfBirth.value.split('-');
+        let birthDate = new Date(datePieces[0], datePieces[1] - 1, datePieces[2]);
         reqData = {
           name : this.$refs.name.value,
+          SSN : this.$refs.SSN.value,
+          driverLicense : this.$refs.driverLicense.value,
+          gender : this.$refs.gender.value,
+          salary : this.$refs.salary.value,
+          dateOfBirth : birthDate,
+          phone : this.$refs.phone.value,
+          address : this.$refs.address.value,
+          stationId : this.$refs.stationId.value,
+          managerId : this.$refs.managerId.value,
           status : this.$refs.status.value
         }
+
+        delete reqData['manager'];
+        delete reqData['station'];
       }
-      return reqData;
+
+      return this.cleanNullValues(reqData);
     },
     Delete (data) {
       function DeleteWorker() {
@@ -178,6 +336,15 @@ export default {
           this.darkModal.show = false;
           this.$parent.refresh();
         }));
+    },
+    cleanNullValues(obj) {
+      for (let propName in obj) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (obj.hasOwnProperty(propName) && obj[propName] === null || obj[propName] === undefined) {
+          delete obj[propName];
+        }
+      }
+      return obj
     }
   }
 }

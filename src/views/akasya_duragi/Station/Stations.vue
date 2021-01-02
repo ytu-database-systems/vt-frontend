@@ -19,7 +19,7 @@
 
 <script>
 import CTableWrapper from './Station.vue'
-import axios from 'axios'
+import axios from '../../../api-client'
 export default {
   name: 'Stations',
   components: { CTableWrapper },
