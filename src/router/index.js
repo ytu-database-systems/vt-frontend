@@ -75,7 +75,7 @@ function configRoutes () {
   return [
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/akasya_duragi/stations',
       name: 'Home',
       component: TheContainer,
       children: [
