@@ -110,7 +110,7 @@
           </div>
         </form>
       <template #header>
-        <h6 class="modal-title">{{darkModal.operation === "edit" ? "Edit Taxi" : "Add Taxi"}}</h6>
+        <h6 class="modal-title">{{darkModal.operation === "edit" ? "Edit Voyage" : "Add Voyage"}}</h6>
         <CButtonClose @click="darkModal.show = false" class="text-white"/>
       </template>
       <template #footer>

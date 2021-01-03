@@ -80,7 +80,7 @@ export default {
         if(voyage['workerId']) {
           voyage['driver'] = this.workers.find((x) => x['id'] === voyage['workerId'])['name'];
         } else {
-          voyage['manager'] = "None"
+          voyage['driver'] = "None"
         }
         if(voyage['taxiId']) {
           voyage['taxi'] = this.taxis.find((x) => x['id'] === voyage['taxiId'])['plate'];

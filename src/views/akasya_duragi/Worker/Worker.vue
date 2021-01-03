@@ -34,6 +34,11 @@
         </template>
       </CDataTable>
     </CCardBody>
+  <CCardFooter>
+    <CButton  color="success" @click="getGreaterSalariesThanManager()" class="mr-1 float-right">
+      Only Show workers that has salaries greater then his/her manager
+    </CButton>
+  </CCardFooter>
       <CModal
               :show.sync="darkModal.show"
               :no-close-on-backdrop="false"
@@ -252,6 +257,18 @@ export default {
       let response = await getStations();
       return response.data.result.rows;
     },
+    async getGreaterSalariesThanManager () {
+      function getWorkerSalariesView() {
+        return axios.get(`${process.env.VUE_APP_API_URL}/worker/view`, {responseType: 'json'});
+      }
+      let response = await getWorkerSalariesView();
+      for (let row of response.data.result.rows) {
+        row["_classes"] = row.status === 1 ? '' :  'table-danger'
+        row['dateOfBirth'] = this.dateToYYYYMMDD(row['dateOfBirth']);
+      }
+
+      this.workers = response.data.result.rows;
+    },
     showModal (operation, data) {
       this.getStationsFromApi().then((stations) => {
         this.stations = stations;
@@ -345,6 +362,11 @@ export default {
         }
       }
       return obj
+    },
+    dateToYYYYMMDD(d) {
+      // alternative implementations in https://stackoverflow.com/q/23593052/1850609
+      console.log("dateToYYYYMMDD : ", d);
+      return d.split('T')[0]
     }
   }
 }

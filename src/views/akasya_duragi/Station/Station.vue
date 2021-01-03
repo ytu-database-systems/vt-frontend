@@ -54,6 +54,21 @@
             </div>
             <div class="row form-group mb-3">
               <div class="col-md-4">
+                <label for="managerId" class="float-right">Manager</label>
+              </div>
+              <div class="col-md-6">
+                <select ref="managerId" id="managerId" class="form-control custom-select w-100 ml-lg-5">
+                  <option v-bind:key="worker.name"
+                          v-bind:value="worker.id" v-for="worker in workers"
+                          :selected="darkModal.data.managerId === worker.id"
+                  >
+                    {{ worker.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row form-group mb-3">
+              <div class="col-md-4">
                 <label for="station-phone" class="float-right">Station Phone</label>
               </div>
               <div class="col-md-6">
@@ -113,7 +128,7 @@ export default {
     fields: {
       type: Array,
       default () {
-        return ['id', 'name', 'phone', 'address', 'managerId', 'createdAt', 'updatedAt', 'status']
+        return ['id', 'name', 'phone', 'address', 'manager', 'createdAt', 'updatedAt', 'status']
       }
     },
     caption: {
@@ -140,10 +155,20 @@ export default {
                       : status === 'Pending' ? 'warning'
                               : status === 0 ? 'Inactive' : 'primary'
     },
+    async getWorkersFromApi () {
+      function getWorkers() {
+        return axios.get(`${process.env.VUE_APP_API_URL}/worker`, {responseType: 'json'});
+      }
+      let response = await getWorkers();
+      return response.data.result.rows;
+    },
     showModal (operation, data) {
-      this.darkModal.operation = operation;
-      this.darkModal.data = data;
-      this.darkModal.show = true;
+      this.getWorkersFromApi().then((workers) => {
+        this.workers = workers;
+        this.darkModal.operation = operation;
+        this.darkModal.data = data;
+        this.darkModal.show = true;
+      });
     },
     Submit (operation, data) {
       axios.all([this.SubmitForm(operation, data)])
@@ -173,11 +198,13 @@ export default {
         data = this.darkModal.data;
         data.name = this.$refs.name.value;
         data.phone = this.$refs.phone.value;
+        data.managerId = this.$refs.managerId.value;
         data.address = this.$refs.address.value;
         data.status = this.$refs.status.value;
         reqData = { ...data };
         delete reqData['_classes'];
         delete reqData['createdAt'];
+        delete reqData['manager'];
         delete reqData['updatedAt'];
         for (let key of Object.keys(reqData)){
           if (!reqData[key])
@@ -187,10 +214,12 @@ export default {
       } else {
         reqData = {
           name : this.$refs.name.value,
+          managerId : this.$refs.managerId.value,
           phone : this.$refs.phone.value,
           address : this.$refs.address.value,
           status : this.$refs.status.value
         }
+        delete reqData['manager'];
       }
       return reqData;
     },
